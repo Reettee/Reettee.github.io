@@ -251,7 +251,7 @@
         YOLO 是一种基于深度学习的端到端实时目标检测算法，由 Joseph Redmon 等人于 2016 年首次提出。其核心思想是将目标检测任务视为一个统一的回归问题，通过单个神经网络直接从输入图像中预测边界框的坐标和类别概率。与传统的两阶段检测算法（如 R-CNN 系列）不同，YOLO 采用单阶段检测策略，将图像划分为 S×S 的网格，每个网格负责预测中心点落入该网格的目标。这种设计使得 YOLO 在保持较高检测精度的同时，具备极快的推理速度，适用于实时应用场景。本系统采用 Ultralytics 团队开源的 YOLOv11n 作为基础模型，该版本在精度与速度之间取得了良好的平衡。
     </p>
     <div class="figure-block">
-        <img src="/images/imgA1.png" alt="YOLO 网络架构示意图" />
+        <img src="projects/images/imgA1.png" alt="YOLO 网络架构示意图" />
         <div class="figcaption">图1：YOLO 单阶段目标检测网络架构示意图</div>
     </div>
 
@@ -261,7 +261,7 @@
         IoU 是目标检测领域中用于衡量两个边界框重叠程度的评价指标。其计算方法为两个矩形框交集面积与并集面积之比，取值范围为 [0, 1]。IoU 值越接近 1，表示两个框的重合度越高。在非极大值抑制（NMS）和模型评估（如 mAP）中，IoU 通常作为判断检测结果是否正确的核心依据。在本系统中，IoU 判定逻辑用于判断工人检测框与预设产线多边形区域是否存在空间重叠。若 IoU 值大于零，即判定工人进入产线区域并触发警报。具体实现中，采用 OpenCV 的 <code>cv2.intersectConvexConvex</code> 函数计算矩形与凸多边形的交集。
     </p>
     <div class="figure-block">
-        <img src="/images/imgA2.png" alt="IoU 计算示意图" />
+        <img src="projects/images/imgA2.png" alt="IoU 计算示意图" />
         <div class="figcaption">图2：IoU 计算方法示意图 —— 交集面积 / 并集面积</div>
     </div>
 
@@ -271,7 +271,7 @@
         LabelImg 是一款开源的图形化图像标注工具，由 Tzutalin 开发并维护。它支持 Pascal VOC 格式（XML）和 YOLO 格式（TXT）两种主流标注格式的输出，广泛应用于目标检测数据集的构建。用户通过简单的鼠标拖拽操作，即可在图像上绘制边界框并标注对应的类别标签。在本项目中，LabelImg 被用于对现场采集的工人与产线图像进行人工标注，生成 YOLO 训练所需的标签文件。标注完成后，所有标签文件与原始图像一同构成训练数据集，用于 YOLOv11n 模型的监督学习训练。
     </p>
     <div class="figure-block">
-        <img src="/images/imgA3.png" alt="LabelImg 标注界面截图" />
+        <img src="projects/images/imgA3.png" alt="LabelImg 标注界面截图" />
         <div class="figcaption">图3：LabelImg 标注界面 —— 绘制边界框并分配类别标签</div>
     </div>
 
@@ -336,11 +336,11 @@
 
     <div class="image-row">
         <div class="figure-block" style="border:none; padding:0; background:transparent;">
-            <img src="/images/imgA4.png" alt="正常检测结果：工人未进入产线区域" />
+            <img src="projects/images/imgA4.png" alt="正常检测结果：工人未进入产线区域" />
             <div class="figcaption">图5：正常检测 —— 工人位于产线区域之外</div>
         </div>
         <div class="figure-block" style="border:none; padding:0; background:transparent;">
-            <img src="/images/imgA5.png" alt="警报触发结果：工人进入产线区域" />
+            <img src="projects/images/imgA5.png" alt="警报触发结果：工人进入产线区域" />
             <div class="figcaption">图6：警报触发 —— 工人进入产线区域，红色框与文字警报</div>
         </div>
     </div>
