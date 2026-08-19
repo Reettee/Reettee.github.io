@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>黄志恒·作品集</title>
+    <title>黄志恒 · 作品集</title>
     <style>
-        /* ---------- 极简重置 ---------- */
+        /* ---------- 极简重置 · 更精致的基座 ---------- */
         * {
             margin: 0;
             padding: 0;
@@ -13,50 +13,118 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-            background: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: #fafafa;
             color: #1a1a1a;
             line-height: 1.7;
-            padding: 2.5rem 1.5rem;
+            padding: 3rem 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
             max-width: 720px;
             margin: 0 auto;
+            width: 100%;
+            flex: 1;
         }
 
-        /* ---------- 头部 ---------- */
+        /* ---------- 卡片式主体 · 更柔和 ---------- */
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 2.8rem 2.8rem 2.2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 20px rgba(0, 0, 0, 0.02);
+            transition: box-shadow 0.3s ease;
+        }
+
+        @media (max-width: 500px) {
+            body {
+                padding: 1.2rem 0.8rem;
+            }
+            .card {
+                padding: 1.8rem 1.2rem 1.6rem;
+                border-radius: 16px;
+            }
+        }
+
+        /* ---------- 头部 · 更干净 ---------- */
         .header {
-            margin-bottom: 3rem;
-            border-bottom: 1px solid #e5e5e5;
-            padding-bottom: 1.5rem;
+            margin-bottom: 2.8rem;
+            padding-bottom: 1.6rem;
+            border-bottom: 1px solid #ececec;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem 1rem;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: baseline;
+            gap: 0.6rem;
+            flex-wrap: wrap;
         }
 
         .header h1 {
             font-size: 2rem;
-            font-weight: 600;
-            letter-spacing: -0.02em;
+            font-weight: 620;
+            letter-spacing: -0.025em;
+            color: #111;
+        }
+
+        .header .badge {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #888;
+            background: #f0f0f0;
+            padding: 0.1rem 0.7rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            line-height: 1.6;
         }
 
         .header .sub {
-            color: #555;
-            font-size: 1rem;
-            margin-top: 0.1rem;
+            color: #666;
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 0.2px;
         }
 
         /* ---------- 通用标题 ---------- */
         .section-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
-            margin: 2.5rem 0 0.8rem 0;
-            letter-spacing: 0.3px;
-            color: #222;
+            margin: 2.6rem 0 0.9rem 0;
+            letter-spacing: 0.4px;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
         }
 
-        /* ---------- 项目列表 ---------- */
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #ececec;
+        }
+
+        /* ---------- 项目列表 · 更精致 ---------- */
         .project-item {
-            padding: 0.6rem 0 0.8rem 0;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 0.9rem 0 1rem 0;
+            border-bottom: 1px solid #f2f2f2;
+            transition: background 0.2s ease;
+            border-radius: 8px;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            margin: 0 -0.5rem;
+        }
+
+        .project-item:hover {
+            background: #f8f8f8;
         }
 
         .project-item:last-child {
@@ -64,120 +132,272 @@
         }
 
         .project-item .name {
-            font-weight: 500;
+            font-weight: 570;
             font-size: 1rem;
+            color: #111;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .project-item .name .tag {
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: #888;
+            background: #f0f0f0;
+            padding: 0 0.6rem;
+            border-radius: 30px;
+            line-height: 1.8;
+            letter-spacing: 0.2px;
         }
 
         .project-item .desc {
-            color: #444;
+            color: #555;
             font-size: 0.9rem;
-            margin: 0.1rem 0 0.3rem 0;
+            margin: 0.1rem 0 0.4rem 0;
+            line-height: 1.6;
+        }
+
+        .project-item .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem 1.2rem;
+            margin-top: 0.2rem;
         }
 
         .project-item .links a {
             color: #0066cc;
             text-decoration: none;
-            font-size: 0.85rem;
-            margin-right: 1.2rem;
-            border-bottom: 1px solid transparent;
+            font-size: 0.82rem;
+            font-weight: 470;
+            border-bottom: 1.5px solid transparent;
+            transition: border-color 0.2s ease, color 0.2s ease;
+            padding: 0.1rem 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.2rem;
         }
 
         .project-item .links a:hover {
             border-bottom-color: #0066cc;
+            color: #004d99;
         }
 
-        /* ---------- 关于 / 联系 ---------- */
+        .project-item .links a .arrow {
+            font-size: 0.7rem;
+            opacity: 0.6;
+            transition: transform 0.2s ease;
+        }
+
+        .project-item .links a:hover .arrow {
+            transform: translateX(2px);
+        }
+
+        /* ---------- 关于 ---------- */
         .about-text {
             color: #333;
             font-size: 0.95rem;
-            margin: 0.2rem 0 0.5rem 0;
+            margin: 0.2rem 0 0.2rem 0;
+            line-height: 1.8;
+            padding: 0.2rem 0;
+        }
+
+        .about-text .highlight {
+            background: #f0f4ff;
+            color: #004d99;
+            padding: 0 0.3rem;
+            border-radius: 4px;
+            font-weight: 470;
+        }
+
+        /* ---------- 联系 ---------- */
+        .contact {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.4rem 1.4rem;
+            margin: 0.2rem 0 0.2rem 0;
+            padding: 0.2rem 0;
         }
 
         .contact a {
             color: #0066cc;
             text-decoration: none;
-            border-bottom: 1px solid #d0d0d0;
+            border-bottom: 1.5px solid #dce4f0;
+            transition: border-color 0.2s ease, color 0.2s ease;
+            font-size: 0.92rem;
+            padding: 0.1rem 0;
         }
 
         .contact a:hover {
             border-bottom-color: #0066cc;
+            color: #004d99;
+        }
+
+        .contact .divider {
+            color: #ccc;
+            font-weight: 300;
+            user-select: none;
         }
 
         /* ---------- 页脚 ---------- */
         .footer {
-            margin-top: 3.5rem;
-            padding-top: 1.2rem;
-            border-top: 1px solid #e5e5e5;
-            font-size: 0.8rem;
-            color: #888;
+            margin-top: 3.2rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid #ececec;
+            font-size: 0.78rem;
+            color: #999;
             text-align: center;
+            letter-spacing: 0.3px;
         }
 
-        /* 响应式 */
+        .footer span {
+            opacity: 0.7;
+        }
+
+        /* ---------- 响应式微调 ---------- */
         @media (max-width: 500px) {
-            body { padding: 1.8rem 1rem; }
-            .header h1 { font-size: 1.6rem; }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.2rem;
+            }
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            .header .sub {
+                font-size: 0.85rem;
+            }
+            .header .badge {
+                font-size: 0.65rem;
+            }
+            .section-title {
+                font-size: 0.95rem;
+                margin-top: 2rem;
+            }
+            .project-item {
+                padding: 0.7rem 0 0.8rem 0;
+            }
+            .project-item .name {
+                font-size: 0.95rem;
+            }
+            .project-item .desc {
+                font-size: 0.85rem;
+            }
+            .contact {
+                gap: 0.2rem 1rem;
+            }
+            .contact a {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .card {
+                padding: 1.2rem 0.8rem;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
         }
     </style>
 </head>
 <body>
-<div class="container">
 
-    <!-- ====== 头部 ====== -->
-    <div class="header">
-        <h1>黄志恒</h1>
-        <div class="sub">作品展示</div>
-    </div>
+    <div class="container">
+        <div class="card">
 
-    <!-- ====== 项目列表 ====== -->
-    <div class="section-title">项目</div>
+            <!-- ====== 头部 ====== -->
+            <div class="header">
+                <div class="header-left">
+                    <h1>黄志恒</h1>
+                    <span class="badge">作品集</span>
+                </div>
+                <div class="sub">开发者 · 工具构建者</div>
+            </div>
 
-    <div class="project-item">
-        <div class="name">基于YOLO目标检测的工人出入产线警报系统</div>
-        <div class="desc">通过YOLO算法和IoU判定实现工人误入产线区域的实时警报。</div>
-        <div class="links">
-            <a href="projectA.html">预览</a>
-            <a href="codeA.html">源码</a>
+            <!-- ====== 项目列表 ====== -->
+            <div class="section-title">项目</div>
+
+            <div class="project-item">
+                <div class="name">
+                    基于 YOLO 与 PaddleOCR 的板坯号识别系统
+                    <span class="tag">2026.8</span>
+                </div>
+                <div class="desc">
+                    利用 YOLO 算法定位结合 PaddleOCR 文字识别实现板坯号的自动化采集与录入。
+                </div>
+                <div class="links">
+                    <a href="projectB.html">
+                        预览 <span class="arrow">→</span>
+                    </a>
+                    <a href="codeB.html">
+                        源码 <span class="arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <div class="name">
+                    基于 YOLO 目标检测的工人出入产线警报系统
+                    <span class="tag">2026.7</span>
+                </div>
+                <div class="desc">
+                    通过 YOLO 算法和 IoU 判定实现工人误入产线区域的实时警报。
+                </div>
+                <div class="links">
+                    <a href="projectA.html">
+                        预览 <span class="arrow">→</span>
+                    </a>
+                    <a href="codeA.html">
+                        源码 <span class="arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <div class="name">
+                    项目 C
+                    <span class="tag">博客</span>
+                </div>
+                <div class="desc">
+                    个人技术博客与学习笔记，记录日常思考与实践心得。
+                </div>
+                <div class="links">
+                    <a href="#">
+                        预览 <span class="arrow">→</span>
+                    </a>
+                    <a href="#">
+                        源码 <span class="arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ====== 关于 ====== -->
+            <div class="section-title">关于</div>
+            <div class="about-text">
+                我是一名开发者，专注于 Web 应用与工具开发。相信简洁、实用的设计能带来更好的体验。
+                目前主要使用 JavaScript / Python 等技术栈。
+            </div>
+
+            <!-- ====== 联系 ====== -->
+            <div class="section-title">联系</div>
+            <div class="contact">
+                <a href="mailto:yourname@email.com">yourname@email.com</a>
+                <span class="divider">·</span>
+                <a href="#">GitHub</a>
+                <span class="divider">·</span>
+                <a href="#">博客</a>
+            </div>
+
+            <!-- ====== 页脚 ====== -->
+            <div class="footer">
+                <span>© 2026 黄志恒</span>
+            </div>
+
         </div>
     </div>
 
-    <div class="project-item">
-        <div class="name">基于YOLO与PaddleOCR的板坯号识别系统</div>
-        <div class="desc">利用YOLO算法定位板坯正面区域，结合PaddleOCR进行文字识别，实现板坯号的自动化采集与录入。</div>
-        <div class="links">
-            <a href="projectB.html">预览</a>
-            <a href="codeB.html">源码</a>
-        </div>
-    </div>
-
-    <div class="project-item">
-        <div class="name">项目 C</div>
-        <div class="desc">个人博客 / 技术笔记，记录学习与思考。</div>
-        <div class="links">
-            <a href="#">预览</a>
-            <a href="#">源码</a>
-        </div>
-    </div>
-
-    <!-- ====== 关于 ====== -->
-    <div class="section-title">关于</div>
-    <div class="about-text">
-        我是一名开发者，专注于 Web 应用与工具开发。相信简洁、实用的设计能带来更好的体验。
-        目前主要使用 JavaScript / Python 等技术栈。
-    </div>
-
-    <!-- ====== 联系 ====== -->
-    <div class="section-title">联系</div>
-    <div class="contact">
-        <a href="232241807315@stu.just.edu.cn">我的邮箱</a>
-        &nbsp;·&nbsp; <a href="https://github.com/Reettee/Reettee.github.io">GitHub</a>
-    </div>
-
-    <!-- ====== 页脚 ====== -->
-    <div class="footer">
-        © 2026 黄志恒
-    </div>
-
-</div>
 </body>
 </html>
