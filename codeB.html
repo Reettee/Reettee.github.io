@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>项目源码：基于YOLO与PaddleOCR的板坯号识别系统</title>
+    <style>
+        /* ---------- 极简重置 ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.8;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        /* ---------- 导航返回 ---------- */
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ---------- 头部 ---------- */
+        .header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e5e5e5;
+            padding-bottom: 1.2rem;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.2rem;
+        }
+
+        .header .sub {
+            color: #555;
+            font-size: 1rem;
+        }
+
+        /* ---------- 通用标题 ---------- */
+        .section-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin: 2rem 0 0.6rem 0;
+            color: #222;
+        }
+
+        .body-text {
+            color: #333;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+        }
+
+        /* ---------- 代码目录导航 ---------- */
+        .toc {
+            background: #f5f7fa;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 0.8rem 1.5rem;
+            margin: 0.5rem 0 1.2rem 0;
+        }
+
+        .toc a {
+            color: #0066cc;
+            text-decoration: none;
+            margin-right: 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        /* ---------- 代码块 ---------- */
+        .code-section {
+            margin: 1.5rem 0 2rem 0;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: #eef0f3;
+            padding: 0.4rem 1.2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 1px solid #d5d9df;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-header .file-name {
+            font-family: "SF Mono", "Fira Code", monospace;
+            font-weight: 400;
+            color: #666;
+        }
+
+        .code-body {
+            background: #f8fafc;
+            padding: 0.8rem 1.2rem;
+            overflow-x: auto;
+            font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+            font-size: 0.8rem;
+            line-height: 1.7;
+            color: #1e293b;
+            white-space: pre;
+        }
+
+        .code-body .line-num {
+            display: inline-block;
+            width: 2.2rem;
+            text-align: right;
+            color: #94a3b8;
+            user-select: none;
+            margin-right: 0.8rem;
+        }
+
+        /* 代码内颜色（与之前风格一致） */
+        .code-body .kw { color: #a11; }      /* 关键字 */
+        .code-body .str { color: #a11; }      /* 字符串 */
+        .code-body .num { color: #066; }      /* 数字 */
+        .code-body .func { color: #069; }     /* 函数名 */
+        .code-body .comment { color: #888; }  /* 注释 */
+        .code-body .builtin { color: #069; }  /* 内置函数 */
+
+        /* ---------- 补充说明列表 ---------- */
+        .styled-list {
+            padding-left: 1.4rem;
+            color: #333;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+        }
+        .styled-list li {
+            margin-bottom: 0.3rem;
+        }
+
+        /* ---------- 页脚 ---------- */
+        .footer {
+            margin-top: 3.5rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid #e5e5e5;
+            font-size: 0.8rem;
+            color: #888;
+            text-align: center;
+        }
+
+        /* 响应式 */
+        @media (max-width: 500px) {
+            body { padding: 1.8rem 1rem; }
+            .header h1 { font-size: 1.4rem; }
+            .toc a { display: inline-block; margin-bottom: 0.3rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ====== 返回项目详情 ====== -->
+    <a class="back-link" href="/index.html">← 返回项目详情</a>
+
+    <!-- ====== 头部 ====== -->
+    <div class="header">
+        <h1>项目源码</h1>
+        <div class="sub">基于YOLO与PaddleOCR的板坯号识别系统 · Python 实现</div>
+    </div>
+
+    <!-- ====== 简要说明 ====== -->
+    <p class="body-text">
+        以下为该项目的核心 Python 代码，主要实现 YOLO 板坯区域检测、OpenCV 视频流处理以及交互式控制（暂停、快进、慢放等）。完整代码还包含 PaddleOCR 文字识别部分，此处仅展示视频处理与目标检测逻辑。
+    </p>
+
+    <!-- ====== 代码目录导航 ====== -->
+    <div class="toc">
+        <a href="#sec-import">导入依赖</a>
+        <a href="#sec-model">模型加载</a>
+        <a href="#sec-video">视频初始化</a>
+        <a href="#sec-control">交互控制参数</a>
+        <a href="#sec-loop">推理主循环</a>
+        <a href="#sec-keyboard">键盘事件 &amp; 资源释放</a>
+    </div>
+
+    <!-- ====== 代码分段展示 ====== -->
+
+    <!-- 1. 导入依赖 -->
+    <div class="code-section" id="sec-import">
+        <div class="code-header">
+            <span>导入依赖</span>
+            <span class="file-name">import cv2, from ultralytics import YOLO</span>
+        </div>
+        <div class="code-body"><span class="comment"># 导入所需库</span>
+<span class="kw">import</span> cv2
+<span class="kw">from</span> ultralytics <span class="kw">import</span> YOLO
+</div>
+    </div>
+
+    <!-- 2. 模型加载 -->
+    <div class="code-section" id="sec-model">
+        <div class="code-header">
+            <span>模型加载</span>
+            <span class="file-name">model = YOLO("Blockbest.pt")</span>
+        </div>
+        <div class="code-body"><span class="comment"># 加载训练好的 YOLO 板坯检测模型</span>
+model = YOLO(<span class="str">"Blockbest.pt"</span>)
+</div>
+    </div>
+
+    <!-- 3. 视频初始化 -->
+    <div class="code-section" id="sec-video">
+        <div class="code-header">
+            <span>视频路径与初始化</span>
+            <span class="file-name">cv2.VideoCapture(...)</span>
+        </div>
+        <div class="code-body">video_path = <span class="str">r"C:\Users\19511\Desktop\板坯识别\C6\C6看板号150.58_C6看板号150.58_20260715050000_20260715053000.avi"</span>
+cap = cv2.VideoCapture(video_path)
+<span class="kw">if</span> <span class="kw">not</span> cap.isOpened():
+    <span class="builtin">print</span>(<span class="str">"无法打开视频！"</span>)
+    exit()
+
+fps = int(cap.get(cv2.CAP_PROP_FPS))
+total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+</div>
+    </div>
+
+    <!-- 4. 交互控制参数 -->
+    <div class="code-section" id="sec-control">
+        <div class="code-header">
+            <span>交互控制参数</span>
+            <span class="file-name">pause, skip_frames, current_frame</span>
+        </div>
+        <div class="code-body">pause = <span class="builtin">False</span>          <span class="comment"># 暂停标志</span>
+skip_frames = <span class="num">1</span>        <span class="comment"># 每次读取的帧数（1为正常，>1为快进）</span>
+current_frame = <span class="num">0</span>      <span class="comment"># 当前播放到的帧索引（用于显示进度）</span>
+
+<span class="builtin">print</span>(<span class="str">"  空格  - 暂停/继续"</span>)
+<span class="builtin">print</span>(<span class="str">"  →/F  - 快进（每次跳2帧）"</span>)
+<span class="builtin">print</span>(<span class="str">"  ←/S  - 慢放（恢复1帧）"</span>)
+<span class="builtin">print</span>(<span class="str">"  R    - 重置速度"</span>)
+<span class="builtin">print</span>(<span class="str">"  Q/ESC - 退出"</span>)
+</div>
+    </div>
+
+    <!-- 5. 推理主循环 -->
+    <div class="code-section" id="sec-loop">
+        <div class="code-header">
+            <span>推理主循环</span>
+            <span class="file-name">while True: ...</span>
+        </div>
+        <div class="code-body"><span class="kw">while</span> <span class="builtin">True</span>:
+    <span class="kw">if</span> <span class="kw">not</span> pause:
+        <span class="comment"># 实现快进：跳过 skip_frames-1 帧</span>
+        <span class="kw">for</span> _ <span class="kw">in</span> range(skip_frames - <span class="num">1</span>):
+            ret = cap.grab()
+            <span class="kw">if</span> <span class="kw">not</span> ret:
+                <span class="kw">break</span>
+        ret, frame = cap.read()
+        <span class="kw">if</span> <span class="kw">not</span> ret:
+            <span class="builtin">print</span>(<span class="str">"视频播放完毕。"</span>)
+            <span class="kw">break</span>
+        current_frame += skip_frames
+
+        <span class="comment"># YOLO 推理并绘制结果</span>
+        results = model(frame, conf=<span class="num">0.5</span>)
+        annotated_frame = results[<span class="num">0</span>].plot()
+
+        <span class="comment"># 叠加帧信息与速度</span>
+        cv2.putText(annotated_frame, <span class="str">f"Frame: {current_frame}/{total_frames}"</span>, 
+                    (<span class="num">10</span>, <span class="num">30</span>), cv2.FONT_HERSHEY_SIMPLEX, <span class="num">0.7</span>, (<span class="num">0</span>, <span class="num">255</span>, <span class="num">0</span>), <span class="num">2</span>)
+        cv2.putText(annotated_frame, <span class="str">f"Speed: {skip_frames}x"</span>, 
+                    (<span class="num">10</span>, <span class="num">60</span>), cv2.FONT_HERSHEY_SIMPLEX, <span class="num">0.7</span>, (<span class="num">0</span>, <span class="num">255</span>, <span class="num">0</span>), <span class="num">2</span>)
+
+        cv2.imshow(<span class="str">"YOLO Detection"</span>, annotated_frame)
+</div>
+    </div>
+
+    <!-- 6. 键盘事件与资源释放 -->
+    <div class="code-section" id="sec-keyboard">
+        <div class="code-header">
+            <span>键盘事件 &amp; 资源释放</span>
+            <span class="file-name">cv2.waitKey() / cap.release()</span>
+        </div>
+        <div class="code-body">    key = cv2.waitKey(<span class="num">1</span>) & <span class="num">0xFF</span>
+
+    <span class="kw">if</span> key == ord(<span class="str">'q'</span>) <span class="kw">or</span> key == <span class="num">27</span>:
+        <span class="kw">break</span>
+    <span class="kw">elif</span> key == <span class="num">32</span>:
+        pause = <span class="kw">not</span> pause
+        <span class="builtin">print</span>(<span class="str">"暂停"</span> <span class="kw">if</span> pause <span class="kw">else</span> <span class="str">"继续"</span>)
+    <span class="kw">elif</span> key == ord(<span class="str">'f'</span>) <span class="kw">or</span> key == <span class="num">255</span>: 
+        skip_frames = min(skip_frames * <span class="num">2</span>, <span class="num">16</span>)
+        <span class="builtin">print</span>(<span class="str">f"快进 x{skip_frames}"</span>)
+    <span class="kw">elif</span> key == ord(<span class="str">'s'</span>) <span class="kw">or</span> key == <span class="num">81</span>:
+        skip_frames = max(skip_frames // <span class="num">2</span>, <span class="num">1</span>)
+        <span class="builtin">print</span>(<span class="str">f"速度 x{skip_frames}"</span>)
+    <span class="kw">elif</span> key == ord(<span class="str">'r'</span>):
+        skip_frames = <span class="num">1</span>
+        <span class="builtin">print</span>(<span class="str">"速度重置为正常"</span>)
+
+cap.release()
+cv2.destroyAllWindows()
+</div>
+    </div>
+
+    <!-- ====== 补充说明 ====== -->
+    <div class="section-title">补充说明</div>
+    <ul class="styled-list">
+        <li><strong>模型权重：</strong> <code>Blockbest.pt</code> 为基于 YOLOv11n 在板坯数据集上微调后的模型，对板坯正面区域具有较高的定位精度。</li>
+        <li><strong>视频路径：</strong> 示例中使用的视频文件为产线现场采集的 <code>.avi</code> 格式文件，需根据实际路径修改。</li>
+        <li><strong>置信度阈值：</strong> <code>conf=0.5</code> 为平衡检测率与误检率的经验值，可根据实际场景调整。</li>
+        <li><strong>交互控制：</strong> 支持空格暂停/继续、F/→ 快进、S/← 慢放、R 重置速度，便于人工复核检测结果。</li>
+        <li><strong>后续处理：</strong> 在实际部署中，检测到的板坯区域会裁剪后送入 PaddleOCR 进行文字识别，完整流程请参考项目说明。</li>
+    </ul>
+
+    <!-- ====== 页脚 ====== -->
+    <div class="footer">
+        © 2026 黄志恒 · 项目源码
+    </div>
+
+</div>
+</body>
+</html>
