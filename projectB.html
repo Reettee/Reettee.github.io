@@ -286,7 +286,7 @@
         PaddleOCR 是百度飞桨（PaddlePaddle）开源的中文 OCR 工具库，集成了文本检测、方向分类和文字识别三大核心模块。其识别引擎基于 CRNN（卷积循环神经网络）与 CTC（连接时序分类）损失函数，支持中英文及多种语言的高精度文字识别。PaddleOCR 提供了丰富的预训练模型，可灵活部署于 CPU 或 GPU 环境。本系统使用 PaddleOCR 的轻量级英文识别模型，在 CPU 环境下运行，对板坯号中常见的数字与字母组合进行识别，满足产线实时性要求。
     </p>
     <div class="figure-block">
-        <img src="/projects/images/imgB2.jpg" alt="PaddleOCR 识别流程示意图" />
+        <img src="/projects/images/imgB2.jpg" alt="PaddleOCR 简介" />
         <div class="figcaption">图2：PaddleOCR 文字识别流程示意图</div>
     </div>
 
@@ -296,7 +296,7 @@
         OpenCV 是一个开源的计算机视觉库，提供了丰富的图像处理和视频分析功能。本系统利用 OpenCV 进行视频流的读取与帧提取、YOLO 检测结果的图像裁剪与预处理，以及检测界面的实时显示与交互控制（如暂停、快进、慢放等）。OpenCV 的高效图像处理能力为系统的实时运行提供了基础保障。
     </p>
     <div class="figure-block">
-        <img src="/projects/images/imgB3.jpg" alt="OpenCV 视频处理界面示意图" />
+        <img src="/projects/images/imgB3.jpg" alt="OpenCV 简介" />
         <div class="figcaption">图3：OpenCV 视频处理与交互控制界面</div>
     </div>
 
@@ -339,7 +339,7 @@
     <!-- ====== 核心代码展示 ====== -->
     <div class="section-title">核心代码</div>
     <p class="body-text" style="font-size:0.85rem; color:#666;">
-        以下为核心视频处理与 YOLO 推理代码（完整代码见项目仓库）：
+        以下为核心视频处理与 YOLO 推理代码：
     </p>
     <div class="code-block">
         <span style="color:#888;"># 导入依赖库</span>
