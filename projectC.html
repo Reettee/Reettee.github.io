@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>项目：电商智能分析平台</title>
+    <style>
+        /* ---------- 极简重置 ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.8;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        /* ---------- 导航返回 ---------- */
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ---------- 头部 ---------- */
+        .header {
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid #e5e5e5;
+            padding-bottom: 1.5rem;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.3rem;
+        }
+
+        .header .sub {
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .header .tags {
+            margin-top: 0.6rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem 0.6rem;
+        }
+
+        .header .tags span {
+            background: #f0f0f0;
+            padding: 0.1rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #333;
+            letter-spacing: 0.2px;
+        }
+
+        /* ---------- 通用标题 ---------- */
+        .section-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin: 2.2rem 0 0.6rem 0;
+            color: #222;
+        }
+
+        .section-subtitle {
+            font-size: 1.0rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.4rem 0;
+            color: #2a2a2a;
+        }
+
+        /* ---------- 正文段落 ---------- */
+        .body-text {
+            color: #333;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .body-text strong {
+            color: #111;
+            font-weight: 600;
+        }
+
+        /* ---------- 列表 ---------- */
+        .styled-list {
+            padding-left: 1.4rem;
+            color: #333;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .styled-list li {
+            margin-bottom: 0.3rem;
+        }
+
+        /* ---------- 代码块 ---------- */
+        .code-block {
+            background: #f5f7fa;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1.2rem 1.5rem;
+            overflow-x: auto;
+            font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: #1e293b;
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin: 0.5rem 0 0.8rem 0;
+        }
+
+        .code-caption {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: -0.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ---------- 图片样式 ---------- */
+        .figure-block {
+            margin: 0.8rem 0 1.2rem 0;
+            border: 1px solid #eaeef2;
+            border-radius: 10px;
+            padding: 1.2rem 1.2rem 0.8rem 1.2rem;
+            background: #fafbfc;
+        }
+
+        .figure-block img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            display: block;
+        }
+
+        .figure-block .figcaption {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 0.5rem;
+        }
+
+        /* ---------- 图片占位 ---------- */
+        .image-placeholder {
+            border: 2px dashed #d0d5dd;
+            border-radius: 10px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+            background: #fafbfc;
+            margin: 0.5rem 0 0.8rem 0;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-placeholder .icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.4rem;
+            opacity: 0.5;
+        }
+
+        .image-placeholder .hint {
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-top: 0.2rem;
+        }
+
+        /* ---------- 结果展示：垂直排列 ---------- */
+        .result-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin: 0.5rem 0 0.8rem 0;
+        }
+
+        .result-gallery .figure-block {
+            margin: 0;
+            border: none;
+            padding: 0;
+            background: transparent;
+        }
+
+        /* ---------- 模块卡片 ---------- */
+        .module-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem 1.2rem;
+            margin: 0.5rem 0 0.8rem 0;
+        }
+
+        .module-card {
+            background: #f8fafc;
+            border: 1px solid #eaeef2;
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .module-card .m-title {
+            font-weight: 600;
+            color: #111;
+        }
+
+        .module-card .m-desc {
+            color: #555;
+            font-size: 0.85rem;
+            margin-top: 0.2rem;
+        }
+
+        @media (max-width: 540px) {
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ---------- 页脚 ---------- */
+        .footer {
+            margin-top: 3.5rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid #e5e5e5;
+            font-size: 0.8rem;
+            color: #888;
+            text-align: center;
+        }
+
+        /* 响应式 */
+        @media (max-width: 500px) {
+            body {
+                padding: 1.8rem 1rem;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ====== 返回首页 ====== -->
+        <a class="back-link" href="/index.html">← 返回作品列表</a>
+
+        <!-- ====== 项目头部 ====== -->
+        <div class="header">
+            <h1>电商智能分析平台</h1>
+            <div class="sub">基于LangChain4j实现的低门槛，高效率自然语言驱动的智能数据分析平台。</div>
+            <div class="tags">
+                <span>Vue 3</span>
+                <span>Spring Boot</span>
+                <span>LangChain4j</span>
+                <span>DeepSeek</span>
+                <span>MySQL</span>
+                <span>Text2SQL</span>
+            </div>
+        </div>
+
+        <!-- ====== 项目概述 ====== -->
+        <div class="section-title">项目概述</div>
+        <p class="body-text">
+            在电商行业竞争日益激烈的背景下，海量商品数据的管理与深度分析已成为平台运营的核心竞争力。传统电商后台管理系统依赖固定报表模板和预设筛选条件，运营人员需掌握复杂 SQL 语句才能获取个性化数据，技术门槛高且效率低下。
+        </p>
+        <p class="body-text">
+            本课题以 Kaggle 公开数据集 <strong>"Customer Shopping Behavior Dataset"</strong> 为基础，融合大语言模型技术，构建了一个支持自然语言交互的电商智能分析平台。通过 <strong>Text2SQL</strong> 智能查询与 <strong>AI 分析报告</strong> 两大核心能力，使非技术人员也能通过自然语言快速完成数据查询与业务洞察，有效降低数据分析门槛，提升决策效率。
+        </p>
+
+        <!-- ====== 技术架构 ====== -->
+        <div class="section-title">技术架构</div>
+        <p class="body-text">
+            系统采用前后端分离架构，后端基于 Spring Boot + MyBatis-Plus，前端采用 Vue 3 + Element Plus，AI 能力通过 LangChain4j 框架接入 DeepSeek 大模型。
+        </p>
+
+        <div class="section-subtitle">1. Spring Boot 3.x</div>
+        <p class="body-text">
+            通过自动配置和约定优于配置的理念，大幅减少 XML 配置和样板代码。内置嵌入式 Tomcat 服务器支持一键启动，在类型安全、企业级事务管理和生态成熟度方面具有显著优势。
+        </p>
+
+        <div class="section-subtitle">2. Vue 3 + Element Plus</div>
+        <p class="body-text">
+            Vue 3 采用 Composition API 和 Proxy-based 响应式系统，逻辑复用更灵活，TypeScript 支持完善。Element Plus 提供了丰富的表单、表格、对话框等组件，支持按需引入，有效控制打包体积。
+        </p>
+
+        <div class="section-subtitle">3. LangChain4j + DeepSeek</div>
+        <p class="body-text">
+            LangChain4j 是 Java 生态中成熟的大模型应用开发框架，通过 AiServices 和 @Tool 注解可快速构建具备工具调用能力的智能 Agent。DeepSeek 提供高性能、低成本的推理服务，支撑 Text2SQL 与智能报告生成。
+        </p>
+
+        <div class="section-subtitle">4. MySQL 规范化存储</div>
+        <p class="body-text">
+            将原始 CSV 宽表规范化为 customers、products、orders 三张关系表，消除数据冗余，通过外键关联保证参照完整性，为高效查询与数据一致性奠定基础。
+        </p>
+
+        <!-- ====== 核心功能模块 ====== -->
+        <div class="section-title">核心功能模块</div>
+        <div class="module-grid">
+            <div class="module-card">
+                <div class="m-title">登录页 (/login)</div>
+                <div class="m-desc">用户名密码登录，表单校验，路由守卫自动拦截未认证访问。</div>
+            </div>
+            <div class="module-card">
+                <div class="m-title">商品浏览 (/products)</div>
+                <div class="m-desc">卡片网格展示商品，支持名称/分类实时搜索，分页加载。</div>
+            </div>
+            <div class="module-card">
+                <div class="m-title">购物车 (/cart)</div>
+                <div class="m-desc">localStorage 持久化，修改数量、移除商品、提交订单。</div>
+            </div>
+            <div class="module-card">
+                <div class="m-title">商品管理 (/admin)</div>
+                <div class="m-desc">增删改查 + 自然语言智能搜索，动态渲染查询结果表格。</div>
+            </div>
+            <div class="module-card" style="grid-column: 1 / -1;">
+                <div class="m-title">数据查询与分析 (/query)</div>
+                <div class="m-desc">自然语言输入 → Text2SQL 转换 → 动态表格展示。内置示例查询标签（"红色商品"、"夏季服装"、"高价订单"），零门槛上手。</div>
+            </div>
+        </div>
+
+        <!-- ====== 技术实现流程 ====== -->
+        <div class="section-title">技术实现流程</div>
+        <ol class="styled-list">
+            <li><strong>数据规范化：</strong>使用 OpenCSV 动态解析原始数据集，将单张宽表拆分为 customers、products、orders 三张关系表，消除冗余并建立外键关联。</li>
+            <li><strong>后端分层架构：</strong>Controller → Service → Mapper 三层结构，统一响应体 Result&lt;T&gt;，全局异常处理，依赖注入管理对象生命周期。</li>
+            <li><strong>Text2SQL 智能查询：</strong>通过精心设计的提示词模板，引导 DeepSeek 将自然语言问题转换为只读 SQL，经安全校验后由 JdbcTemplate 执行并返回 JSON 结果。</li>
+            <li><strong>智能分析报告：</strong>基于 LangChain4j AiServices + @Tool 构建 Agent 模式，支持自主规划查询步骤；同时提供混合模式（程序硬编码 + AI 生成）作为稳定方案。</li>
+            <li><strong>前端交互：</strong>Vue 3 响应式数据绑定，Element Plus 组件库，路由守卫，Axios 拦截器，localStorage 购物车持久化。</li>
+        </ol>
+
+        <!-- ====== 核心代码展示 ====== -->
+        <div class="section-title">核心代码</div>
+        <p class="body-text" style="font-size:0.85rem; color:#666;">
+            以下为 Text2SQL 提示词模板与前端路由守卫核心代码片段：
+        </p>
+
+        <div class="code-block">
+            <span style="color:#888;">// Text2SQL 提示词模板 (SqlGenService.java)</span>
+            <span style="color:#a11;">private static final</span> String PROMPT = <span style="color:#a11;">"""</span>
+            你是一个SQL专家。根据以下数据库表结构：
+            - customers(id, age, gender, location, subscription_status, purchase_frequency, previous_purchases)
+            - products(id, item_name, category, size, color, season)
+            - orders(id, customer_id, product_id, purchase_amount, payment_method, discount_applied, rating, review_rating, shipping_type)
+
+            将用户的自然语言查询转换为一条只读SQL语句。
+            要求：
+            1. 仅生成SELECT语句，不要有任何修改数据库的操作。
+            2. 不要使用分号结尾，不要加注释。
+            3. 查询商品信息时，必须包含 products.id 和 products.item_name。
+            4. 如果问题无法转换为SQL，返回"无法理解"。
+
+            用户问题：%s
+            SQL：<span style="color:#a11;">"""</span>;
+        </div>
+        <p class="code-caption">▲ 提示词工程：明确表结构、安全约束与输出格式</p>
+
+        <div class="code-block">
+            <span style="color:#888;">// 前端路由守卫 (router/index.js)</span>
+            router.beforeEach((to, from, next) =&gt; {
+                <span style="color:#a11;">const</span> token = localStorage.getItem(<span style="color:#a11;">'token'</span>);
+                <span style="color:#a11;">if</span> (!token &amp;&amp; !to.meta.noAuth) next(<span style="color:#a11;">'/login'</span>);
+                <span style="color:#a11;">else if</span> (token &amp;&amp; to.path === <span style="color:#a11;">'/login'</span>) next(<span style="color:#a11;">'/products'</span>);
+                <span style="color:#a11;">else</span> next();
+            });
+        </div>
+        <p class="code-caption">▲ 路由守卫：未登录跳转登录页，已登录禁止访问登录页</p>
+
+        <!-- ====== 结果展示（扩充） ====== -->
+        <div class="section-title">结果展示</div>
+        <p class="body-text">
+            系统各核心页面运行效果示意如下，每张截图独立展示，涵盖登录、商品浏览、购物车、智能查询输入及结果表格。
+        </p>
+
+        <div class="result-gallery">
+            <!-- 图1：登录页 -->
+            <div class="figure-block">
+                <div class="image-placeholder" style="min-height:120px;">
+                    <div>登录页 · 表单校验</div>
+                    <img src="/projects/images/imgC1.jpg" alt="登录页 · 表单校验" />
+                </div>
+                <div class="figcaption">图1：登录页 —— 用户名密码认证</div>
+            </div>
+
+            <!-- 图2：商品浏览 -->
+            <div class="figure-block">
+                <div class="image-placeholder" style="min-height:120px;">
+                    <div>商品浏览 · 卡片网格</div>
+                    <img src="/projects/images/imgC2.jpg" alt="商品浏览 · 卡片网格" />
+                </div>
+                <div class="figcaption">图2：商品浏览页 —— 卡片展示 + 搜索</div>
+            </div>
+
+            <!-- 图3：购物车 -->
+            <div class="figure-block">
+                <div class="image-placeholder" style="min-height:120px;">
+                    <div>购物车 · 持久化</div>
+                    <img src="/projects/images/imgC3.jpg" alt="购物车 · 持久化" />
+                </div>
+                <div class="figcaption">图3：购物车页 —— localStorage 持久化</div>
+            </div>
+
+            <!-- 图4：智能查询输入页 -->
+            <div class="figure-block">
+                <div class="image-placeholder" style="min-height:120px;">
+                    <div>智能查询 · 自然语言输入</div>
+                    <img src="/projects/images/imgC4.jpg" alt="智能查询 · 自然语言输入" />
+                </div>
+                <div class="figcaption">图4：智能查询输入页 —— 自然语言 + 示例标签</div>
+            </div>
+
+            <!-- 图5：智能查询结果页（新增） -->
+            <div class="figure-block">
+                <div class="image-placeholder" style="min-height:120px;">
+                    <div>智能查询 · 动态结果表格</div>
+                    <img src="/projects/images/imgC5.jpg" alt="智能查询 · 动态结果表格" />
+                </div>
+                <div class="figcaption">图5：智能查询结果页 —— 动态表格展示查询数据</div>
+            </div>
+        </div>
+
+        <!-- ====== 技术栈 ====== -->
+        <div class="section-title">技术栈</div>
+        <ul class="styled-list">
+            <li><strong>后端框架：</strong>Spring Boot 3.x + Spring MVC + MyBatis-Plus</li>
+            <li><strong>前端框架：</strong>Vue 3 + Element Plus + Vite</li>
+            <li><strong>AI 框架：</strong>LangChain4j + DeepSeek API</li>
+            <li><strong>数据库：</strong>MySQL 8.0 + OpenCSV 数据导入</li>
+            <li><strong>开发工具：</strong>IntelliJ IDEA + VS Code + Postman</li>
+            <li><strong>版本管理：</strong>Git + GitHub</li>
+        </ul>
+
+        <!-- ====== 项目链接 ====== -->
+        <div class="section-title">项目链接</div>
+        <p class="body-text">
+            <a href="https://github.com/Reettee/Reettee.github.io" style="color:#0066cc; text-decoration:none; border-bottom:1px solid #d0d0d0;">GitHub 仓库地址</a>
+        </p>
+
+        <!-- ====== 页脚 ====== -->
+        <div class="footer">
+            © 2026 黄志恒 · 项目详情
+        </div>
+
+    </div>
+</body>
+</html>

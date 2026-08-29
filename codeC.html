@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>项目源码：电商智能分析平台</title>
+    <style>
+        /* ---------- 极简重置 ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.8;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        /* ---------- 导航返回 ---------- */
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ---------- 头部 ---------- */
+        .header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e5e5e5;
+            padding-bottom: 1.2rem;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.2rem;
+        }
+
+        .header .sub {
+            color: #555;
+            font-size: 1rem;
+        }
+
+        /* ---------- 通用标题 ---------- */
+        .section-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin: 2rem 0 0.6rem 0;
+            color: #222;
+        }
+
+        .body-text {
+            color: #333;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+        }
+
+        /* ---------- 代码目录导航 ---------- */
+        .toc {
+            background: #f5f7fa;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 0.8rem 1.5rem;
+            margin: 0.5rem 0 1.2rem 0;
+        }
+
+        .toc a {
+            color: #0066cc;
+            text-decoration: none;
+            margin-right: 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        /* ---------- 代码块 ---------- */
+        .code-section {
+            margin: 1.5rem 0 2rem 0;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: #eef0f3;
+            padding: 0.4rem 1.2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 1px solid #d5d9df;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-header .file-name {
+            font-family: "SF Mono", "Fira Code", monospace;
+            font-weight: 400;
+            color: #666;
+        }
+
+        .code-body {
+            background: #f8fafc;
+            padding: 0.8rem 1.2rem;
+            overflow-x: auto;
+            font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+            font-size: 0.8rem;
+            line-height: 1.7;
+            color: #1e293b;
+            white-space: pre;
+        }
+
+        .code-body .line-num {
+            display: inline-block;
+            width: 2.2rem;
+            text-align: right;
+            color: #94a3b8;
+            user-select: none;
+            margin-right: 0.8rem;
+        }
+
+        /* 代码内颜色（与之前风格一致） */
+        .code-body .kw { color: #a11; }      /* 关键字 */
+        .code-body .str { color: #a11; }      /* 字符串 */
+        .code-body .num { color: #066; }      /* 数字 */
+        .code-body .func { color: #069; }     /* 函数名/注解 */
+        .code-body .comment { color: #888; }  /* 注释 */
+        .code-body .builtin { color: #069; }  /* 内置函数/类型 */
+
+        /* ---------- 页脚 ---------- */
+        .footer {
+            margin-top: 3.5rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid #e5e5e5;
+            font-size: 0.8rem;
+            color: #888;
+            text-align: center;
+        }
+
+        /* 响应式 */
+        @media (max-width: 500px) {
+            body { padding: 1.8rem 1rem; }
+            .header h1 { font-size: 1.4rem; }
+            .toc a { display: inline-block; margin-bottom: 0.3rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ====== 返回项目详情 ====== -->
+    <a class="back-link" href="/projectB.html">← 返回项目详情</a>
+
+    <!-- ====== 头部 ====== -->
+    <div class="header">
+        <h1>项目源码</h1>
+        <div class="sub">电商智能分析平台 · Java + Vue 实现</div>
+    </div>
+
+    <!-- ====== 简要说明 ====== -->
+    <p class="body-text">
+        以下为该项目的核心源代码，涵盖后端 Spring Boot 服务（Text2SQL、认证、统一响应）与前端 Vue 路由守卫。
+    </p>
+
+    <!-- ====== 1. 统一响应体 ====== -->
+    <div class="code-section" id="sec-result">
+        <div class="code-header">
+            <span>统一响应体</span>
+            <span class="file-name">Result.java</span>
+        </div>
+        <div class="code-body"><span class="comment">// 统一 API 响应结构，泛型支持任意数据类型</span>
+<span class="kw">public class</span> <span class="func">Result</span>&lt;T&gt; {
+    <span class="kw">private int</span> code;
+    <span class="kw">private</span> String message;
+    <span class="kw">private</span> T data;
+
+    <span class="kw">public static</span> &lt;T&gt; Result&lt;T&gt; <span class="func">success</span>(T data) {
+        Result&lt;T&gt; r = <span class="kw">new</span> Result&lt;&gt;();
+        r.code = <span class="num">200</span>;
+        r.message = <span class="str">"OK"</span>;
+        r.data = data;
+        <span class="kw">return</span> r;
+    }
+
+    <span class="kw">public static</span> &lt;T&gt; Result&lt;T&gt; <span class="func">error</span>(String msg) {
+        Result&lt;T&gt; r = <span class="kw">new</span> Result&lt;&gt;();
+        r.code = <span class="num">500</span>;
+        r.message = msg;
+        <span class="kw">return</span> r;
+    }
+}
+</div>
+    </div>
+
+    <!-- ====== 2. 认证服务 ====== -->
+    <div class="code-section" id="sec-auth">
+        <div class="code-header">
+            <span>认证服务（登录 / 注册）</span>
+            <span class="file-name">AuthService.java</span>
+        </div>
+        <div class="code-body"><span class="comment">// 使用 BCrypt 加密密码，返回简化 token</span>
+<span class="kw">@Service</span>
+<span class="kw">@RequiredArgsConstructor</span>
+<span class="kw">public class</span> <span class="func">AuthService</span> {
+    <span class="kw">private final</span> UserMapper userMapper;
+    <span class="kw">private final</span> BCryptPasswordEncoder passwordEncoder = <span class="kw">new</span> BCryptPasswordEncoder();
+
+    <span class="kw">public</span> String <span class="func">login</span>(String username, String password) {
+        User user = userMapper.selectOne(
+            <span class="kw">new</span> LambdaQueryWrapper&lt;User&gt;().eq(User::getUsername, username));
+        <span class="kw">if</span> (user == <span class="builtin">null</span> || !passwordEncoder.matches(password, user.getPassword()))
+            <span class="kw">throw new</span> RuntimeException(<span class="str">"用户名或密码错误"</span>);
+        <span class="kw">return</span> UUID.randomUUID().toString(); <span class="comment">// 简化 token</span>
+    }
+
+    <span class="kw">public</span> User <span class="func">register</span>(String username, String password, String email) {
+        <span class="comment">// 检查用户名唯一性</span>
+        <span class="kw">if</span> (userMapper.selectCount(
+            <span class="kw">new</span> LambdaQueryWrapper&lt;User&gt;().eq(User::getUsername, username)) > <span class="num">0</span>)
+            <span class="kw">throw new</span> RuntimeException(<span class="str">"用户名已存在"</span>);
+        User user = <span class="kw">new</span> User();
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setEmail(email);
+        user.setRole(<span class="str">"user"</span>);
+        userMapper.insert(user);
+        <span class="kw">return</span> user;
+    }
+}
+</div>
+    </div>
+
+    <!-- ====== 3. Text2SQL 服务 ====== -->
+    <div class="code-section" id="sec-sqlgen">
+        <div class="code-header">
+            <span>Text2SQL 生成服务</span>
+            <span class="file-name">SqlGenService.java</span>
+        </div>
+        <div class="code-body"><span class="comment">// 提示词模板 + 调用 DeepSeek 生成 SQL</span>
+<span class="kw">@Service</span>
+<span class="kw">@RequiredArgsConstructor</span>
+<span class="kw">public class</span> <span class="func">SqlGenService</span> {
+    <span class="kw">private final</span> OpenAiChatModel chatModel;
+    <span class="kw">private static final</span> String PROMPT = <span class="str">"""
+        你是一个SQL专家。根据以下数据库表结构：
+        - customers(id, age, gender, location, subscription_status, purchase_frequency, previous_purchases)
+        - products(id, item_name, category, size, color, season)
+        - orders(id, customer_id, product_id, purchase_amount, payment_method, discount_applied, rating, review_rating, shipping_type)
+
+        将用户的自然语言查询转换为一条只读SQL语句。
+        要求：
+        1. 仅生成SELECT语句，不要有任何修改数据库的操作。
+        2. 不要使用分号结尾，不要加注释。
+        3. 查询商品信息时，必须包含 products.id 和 products.item_name。
+        4. 如果问题无法转换为SQL，返回"无法理解"。
+
+        用户问题：%s
+        SQL："""</span>;
+
+    <span class="kw">public</span> String <span class="func">generateSql</span>(String question) {
+        <span class="kw">return</span> chatModel.generate(String.format(PROMPT, question)).trim();
+    }
+}
+</div>
+    </div>
+
+    <!-- ====== 4. 自然查询控制器 ====== -->
+    <div class="code-section" id="sec-controller">
+        <div class="code-header">
+            <span>自然查询接口</span>
+            <span class="file-name">NaturalQueryController.java</span>
+        </div>
+        <div class="code-body"><span class="comment">// 接收自然语言 → 生成 SQL → 安全校验 → 执行并返回</span>
+<span class="kw">@RestController</span>
+<span class="kw">@RequestMapping</span>(<span class="str">"/api/query"</span>)
+<span class="kw">@RequiredArgsConstructor</span>
+<span class="kw">public class</span> <span class="func">NaturalQueryController</span> {
+    <span class="kw">private final</span> SqlGenService sqlGenService;
+    <span class="kw">private final</span> JdbcTemplate jdbcTemplate;
+
+    <span class="kw">@PostMapping</span>(<span class="str">"/natural"</span>)
+    <span class="kw">public</span> Result&lt;?&gt; <span class="func">query</span>(<span class="kw">@RequestBody</span> Map&lt;String, String&gt; body) {
+        String question = body.get(<span class="str">"question"</span>);
+        String sql = sqlGenService.generateSql(question);
+        <span class="kw">if</span> (!sql.trim().toUpperCase().startsWith(<span class="str">"SELECT"</span>))
+            <span class="kw">return</span> Result.error(<span class="str">"生成的SQL不安全或无法理解"</span>);
+        <span class="kw">try</span> {
+            List&lt;Map&lt;String, Object&gt;&gt; rows = jdbcTemplate.queryForList(sql);
+            <span class="kw">return</span> Result.success(rows);
+        } <span class="kw">catch</span> (Exception e) {
+            <span class="kw">return</span> Result.error(<span class="str">"查询执行失败: "</span> + e.getMessage());
+        }
+    }
+}
+</div>
+    </div>
+
+    <!-- ====== 5. 前端路由守卫 ====== -->
+    <div class="code-section" id="sec-router">
+        <div class="code-header">
+            <span>Vue 路由守卫</span>
+            <span class="file-name">router/index.js</span>
+        </div>
+        <div class="code-body"><span class="comment">// 未登录跳转登录页，已登录跳转商品页</span>
+router.beforeEach((to, from, next) =&gt; {
+    <span class="kw">const</span> token = localStorage.getItem(<span class="str">'token'</span>);
+    <span class="kw">if</span> (!token &amp;&amp; !to.meta.noAuth) {
+        next(<span class="str">'/login'</span>);
+    } <span class="kw">else if</span> (token &amp;&amp; to.path === <span class="str">'/login'</span>) {
+        next(<span class="str">'/products'</span>);
+    } <span class="kw">else</span> {
+        next();
+    }
+});
+</div>
+    </div>
+
+    <!-- ====== 补充说明 ====== -->
+    <div class="section-title">补充说明</div>
+    <ul class="styled-list" style="padding-left:1.4rem; color:#333; font-size:0.95rem; margin-bottom:0.8rem;">
+        <li><strong>统一响应体：</strong>所有 API 返回 <code>Result&lt;T&gt;</code> 结构，包含 code、message、data，前端通过拦截器统一处理。</li>
+        <li><strong>密码加密：</strong>使用 BCryptPasswordEncoder 存储哈希密码，保障安全性。</li>
+        <li><strong>提示词工程：</strong>通过明确表结构、安全约束（仅 SELECT）和输出格式，有效提升 SQL 生成准确率。</li>
+        <li><strong>安全执行：</strong>后端强制校验 SQL 以 <code>SELECT</code> 开头，拒绝任何 DML/DDL 操作，防止数据篡改。</li>
+        <li><strong>路由守卫：</strong>基于 localStorage 的 token 进行鉴权，未登录用户自动重定向至登录页。</li>
+        <li><strong>扩展性：</strong>可进一步接入 Redis 缓存、多数据源支持等，提升性能与可用性。</li>
+    </ul>
+
+    <!-- ====== 页脚 ====== -->
+    <div class="footer">
+        © 2026 黄志恒 · 项目源码
+    </div>
+
+</div>
+</body>
+</html>
