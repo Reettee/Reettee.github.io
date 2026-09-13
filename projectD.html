@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>项目：Agent 智能文件管理助手</title>
+    <style>
+        /* ---------- 极简重置 ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.8;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        /* ---------- 导航返回 ---------- */
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ---------- 头部 ---------- */
+        .header {
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid #e5e5e5;
+            padding-bottom: 1.5rem;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.3rem;
+        }
+
+        .header .sub {
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .header .tags {
+            margin-top: 0.6rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem 0.6rem;
+        }
+
+        .header .tags span {
+            background: #f0f0f0;
+            padding: 0.1rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #333;
+            letter-spacing: 0.2px;
+        }
+
+        /* ---------- 通用标题 ---------- */
+        .section-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin: 2.2rem 0 0.6rem 0;
+            color: #222;
+        }
+
+        .section-subtitle {
+            font-size: 1.0rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.4rem 0;
+            color: #2a2a2a;
+        }
+
+        /* ---------- 正文段落 ---------- */
+        .body-text {
+            color: #333;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .body-text strong {
+            color: #111;
+            font-weight: 600;
+        }
+
+        /* ---------- 列表 ---------- */
+        .styled-list {
+            padding-left: 1.4rem;
+            color: #333;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .styled-list li {
+            margin-bottom: 0.3rem;
+        }
+
+        /* ---------- 代码块 ---------- */
+        .code-block {
+            background: #f5f7fa;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1.2rem 1.5rem;
+            overflow-x: auto;
+            font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: #1e293b;
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin: 0.5rem 0 0.8rem 0;
+        }
+
+        .code-caption {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: -0.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ---------- 图片样式 ---------- */
+        .figure-block {
+            margin: 0.8rem 0 1.2rem 0;
+            border: 1px solid #eaeef2;
+            border-radius: 10px;
+            padding: 1.2rem 1.2rem 0.8rem 1.2rem;
+            background: #fafbfc;
+        }
+
+        .figure-block img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            display: block;
+        }
+
+        .figure-block .figcaption {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 0.5rem;
+        }
+
+        /* ---------- 图片占位（无图时使用） ---------- */
+        .image-placeholder {
+            border: 2px dashed #d0d5dd;
+            border-radius: 10px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+            background: #fafbfc;
+            margin: 0.5rem 0 0.8rem 0;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-placeholder .icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.4rem;
+            opacity: 0.5;
+        }
+
+        .image-placeholder .hint {
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-top: 0.2rem;
+        }
+
+        .image-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin: 0.5rem 0 0.8rem 0;
+        }
+
+        @media (max-width: 540px) {
+            .image-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ---------- 页脚 ---------- */
+        .footer {
+            margin-top: 3.5rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid #e5e5e5;
+            font-size: 0.8rem;
+            color: #888;
+            text-align: center;
+        }
+
+        /* 响应式 */
+        @media (max-width: 500px) {
+            body { padding: 1.8rem 1rem; }
+            .header h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ====== 返回首页 ====== -->
+    <a class="back-link" href="/index.html">← 返回作品列表</a>
+
+    <!-- ====== 项目头部 ====== -->
+    <div class="header">
+        <h1>Agent 智能文件管理助手</h1>
+        <div class="sub">自然语言交互 · 全文检索 · RAG 增强问答</div>
+        <div class="tags">
+            <span>Agent</span>
+            <span>Python</span>
+            <span>FastAPI</span>
+            <span>DeepSeek API</span>
+            <span>Whoosh</span>
+            <span>RAG</span>
+            <span>Chardet</span>
+            <span>JavaScript</span>
+        </div>
+    </div>
+
+    <!-- ====== 项目概述 ====== -->
+    <div class="section-title">项目概述</div>
+    <p class="body-text">
+        本地文件管理长期依赖手动操作与固定目录检索，查找文件内容需逐个打开预览，效率低下；非技术用户更难以通过命令行或复杂检索语法完成个性化查询。本方案面向本地文件智能管理需求，构建了一个支持自然语言交互的文件管理 Agent。用户只需用自然语言下达指令，即可完成文件的创建、删除、修改、按类型列出、内容读取，以及基于文件内容的智能检索与问答。系统以 FastAPI 提供后端异步服务，Whoosh 构建全文索引，DeepSeek API 负责指令解析与答案生成，前端以对话式界面实现全流程交互，有效降低文件管理门槛，提升检索与操作效率。
+    </p>
+
+    <!-- ====== 关键技术介绍 ====== -->
+    <div class="section-title">关键技术介绍</div>
+
+    <!-- LLM Agent -->
+    <div class="section-subtitle">1. 大语言模型 Agent（LLM Agent）</div>
+    <p class="body-text">
+        Agent 是当前人工智能领域的重要范式，其核心思想是让大语言模型（LLM）作为"大脑"，通过工具调用（Tool Use）与外部环境交互，从而完成复杂的多步骤任务。与传统的固定流程程序不同，Agent 具备理解自然语言、规划任务步骤、选择合适工具、处理异常反馈的能力。本系统中，DeepSeek API 充当 Agent 的推理核心，接收用户自然语言指令后，输出结构化的 JSON 操作意图（包含 action、mode、path、content、query 等字段），后端再根据意图调度对应的文件操作或检索模块。这种设计使得用户无需学习任何命令语法，即可完成复杂的文件管理任务。
+    </p>
+    <div class="figure-block">
+        <div class="image-placeholder">
+            <img src="/projects/images/imgD1.jpg" alt="LLM Agent 架构示意图" />
+            <div class="hint">图1：LLM Agent 的"解析—调度—执行"闭环流程</div>
+        </div>
+    </div>
+
+    <!-- FastAPI -->
+    <div class="section-subtitle">2. FastAPI</div>
+    <p class="body-text">
+        FastAPI 是一个基于 Python 3.6+ 的现代高性能 Web 框架，底层基于 Starlette（异步 Web 框架）与 Pydantic（数据校验库）。其核心优势在于：原生支持异步请求处理（async/await）、自动生成 OpenAPI 文档、基于类型注解的请求参数校验，以及极高的运行效率。本系统采用 FastAPI 搭建后端服务，对外暴露 <code>/chat</code>（自然语言指令入口）、<code>/files</code>（文件列表接口）等端点。借助 Pydantic 的 <code>BaseModel</code> 定义请求体结构，确保前后端数据交换的类型安全。FastAPI 的异步特性也能在调用 DeepSeek API 或执行全文检索时避免阻塞，提升响应速度。
+    </p>
+    <div class="figure-block">
+        <div class="image-placeholder">
+            <img src="/projects/images/imgD2.jpg" alt="FastAPI 异步请求处理与 Pydantic 数据校验机制" />
+            <div class="hint">图2：FastAPI 异步请求处理与 Pydantic 数据校验机制</div>
+        </div>
+    </div>
+
+    <!-- Whoosh -->
+    <div class="section-subtitle">3. Whoosh 全文检索</div>
+    <p class="body-text">
+        Whoosh 是一个纯 Python 实现的轻量级全文检索库，无需依赖外部服务即可在本地建立倒排索引。其核心组件包括 Schema（定义索引字段）、IndexWriter（写入索引）、Searcher（执行查询）与 QueryParser（解析查询语法）。Whoosh 支持多字段检索、布尔查询、模糊匹配、短语查询以及按时间、数值范围过滤等能力。本系统中，Whoosh 被用于对 <code>D:/Manage</code> 目录下的文本文件建立索引，索引字段包含文件路径、文件名、文件内容、大小与修改时间。检索时通过 <code>MultifieldParser</code> 同时在文件名与内容中搜索，快速定位包含关键词的文件，为 RAG 提供召回源。
+    </p>
+    <div class="figure-block">
+        <div class="image-placeholder">
+            <img src="/projects/images/imgD3.jpg" alt="Whoosh 索引结构示意图" />
+            <div class="hint">图3：Whoosh 倒排索引与多字段检索结构</div>
+        </div>
+    </div>
+
+    <!-- RAG -->
+    <div class="section-subtitle">4. RAG（Retrieval-Augmented Generation）</div>
+    <p class="body-text">
+        RAG 即"检索增强生成"，是一种将信息检索与大语言模型生成能力结合的技术范式。其基本流程为：先根据用户问题从知识库（本系统为本地文件）中检索出相关内容片段，再将片段作为上下文注入 LLM 的提示词中，由 LLM 基于真实上下文生成答案。相比纯生成模式，RAG 能有效缓解模型幻觉、突破训练数据时效限制，并支持私有数据的问答。本系统采用轻量级 RAG 方案：由 Whoosh 检索出最相关的 3 个文件，读取其内容片段（每个文件截取前 1500 字符）拼接为上下文，最终调用 DeepSeek 生成用户问题的答案。整个过程只读文件、不修改，确保安全。
+    </p>
+    <div class="figure-block">
+        <div class="image-placeholder">
+            <img src="/projects/images/imgD4.jpg" alt="RAG 流程示意图" />
+            <div class="hint">图4：RAG 的"检索 → 增强 → 生成"三阶段流程</div>
+        </div>
+    </div>
+
+    <!-- Chardet -->
+    <div class="section-subtitle">5. Chardet 编码检测</div>
+    <p class="body-text">
+        在处理本地文件时，编码问题是绕不开的难题。同一份文本可能以 UTF-8、GBK、GB2312、Big5 等不同编码保存，若统一按 UTF-8 读取会出现乱码或异常。Chardet 是一个成熟的 Python 字符编码检测库，通过统计字节序列的分布特征，推测文本最可能的编码格式。本系统在读取文件内容前，先使用 <code>chardet.detect()</code> 检测编码，再以检测结果解码文本，并配合 <code>errors='ignore'</code> 容错处理，确保不同编码的文件都能被正确索引与检索。
+    </p>
+
+    <!-- ====== 核心问题与解决方案 ====== -->
+    <div class="section-title">核心问题与解决方案</div>
+    <p class="body-text">
+        在初步方案中，系统仅依靠 LLM 直接生成回答，缺乏对本地文件的真实访问能力，模型容易产生"幻觉"，即编造并不存在的文件内容。同时，用户"列出所有 Python 文件"这类精确操作指令，也无法由纯生成模型准确完成。
+    </p>
+    <p class="body-text">
+        针对上述问题，本方案采用<strong>Agent 意图解析 + 多模式调度</strong>策略：由 DeepSeek 先解析用户指令，输出结构化的意图（区分 <code>create / delete / modify / ask</code> 动作，并在 <code>ask</code> 下进一步区分 <code>list / read / query</code> 三种模式），后端再根据意图路由到不同的处理逻辑。<strong>list</strong> 模式直接扫描目录返回文件列表，<strong>read</strong> 模式直接读取指定文件全文，<strong>query</strong> 模式则走 RAG 检索 + 生成。同时，所有文件操作均被限定在 <code>BASE_DIR</code> 根目录下（通过 <code>safe_path</code> 校验），有效防止路径越界。该方案在保证指令执行准确性的同时，显著降低了模型幻觉带来的风险。
+    </p>
+
+    <!-- ====== 技术实现流程 ====== -->
+    <div class="section-title">技术实现流程</div>
+    <ol class="styled-list">
+        <li><strong>环境与目录配置：</strong>设定文件管理根目录 <code>BASE_DIR</code>（如 <code>D:/Manage</code>），并配置 DeepSeek API Key 环境变量，初始化 OpenAI 兼容客户端。</li>
+        <li><strong>索引构建：</strong>启动时递归扫描根目录下的文本文件，通过扩展名白名单与 Chardet 编码检测过滤可索引文件，将路径、文件名、内容、大小、修改时间写入 Whoosh 索引。</li>
+        <li><strong>自然语言解析：</strong>用户在前端输入指令后，后端调用 DeepSeek API，将自然语言解析为包含 <code>action</code>、<code>mode</code>、<code>path</code>、<code>query</code> 等字段的结构化 JSON。</li>
+        <li><strong>意图路由与执行：</strong>根据解析结果路由到对应模块——<code>create/delete/modify</code> 走文件操作，<code>ask/list</code> 走目录扫描，<code>ask/read</code> 走文件读取，<code>ask/query</code> 走 RAG 检索与生成。</li>
+        <li><strong>结果返回与展示：</strong>将执行结果（操作状态、文件列表、文件内容或 AI 答案）以 JSON 返回前端，前端在对话界面中渲染为对应的消息卡片。</li>
+    </ol>
+
+    <!-- ====== 核心代码展示 ====== -->
+    <div class="section-title">核心代码</div>
+    <p class="body-text" style="font-size:0.85rem; color:#666;">
+        以下为 Agent 意图解析、路径安全校验与 RAG 生成的核心代码片段：
+    </p>
+    <div class="code-block">
+        <span style="color:#888;"># 路径安全校验：所有操作限定在 BASE_DIR 内</span>
+        <span style="color:#a11;">def</span> <span style="color:#069;">safe_path</span>(rel_path: str) -> Path:
+            <span style="color:#a11;">if not</span> rel_path:
+                <span style="color:#a11;">return</span> BASE_DIR
+            target = (BASE_DIR / rel_path).resolve()
+            <span style="color:#a11;">if not</span> str(target).startswith(str(BASE_DIR.resolve())):
+                <span style="color:#a11;">raise</span> PermissionError(<span style="color:#a11;">"禁止访问根目录之外的文件"</span>)
+            <span style="color:#a11;">return</span> target
+
+        <span style="color:#888;"># Agent 意图解析：调用 DeepSeek 输出结构化指令</span>
+        <span style="color:#a11;">def</span> <span style="color:#069;">parse_with_deepseek</span>(user_message: str):
+            system_prompt = <span style="color:#a11;">"""你是一个文件管理助手。根据用户指令，返回 JSON：</span>
+        <span style="color:#a11;">    - action: create / delete / modify / ask</span>
+        <span style="color:#a11;">    - mode (仅 ask): list / read / query</span>
+        <span style="color:#a11;">    - path / content / query / filetype"""</span>
+            response = client.chat.completions.create(
+                model=<span style="color:#a11;">"deepseek-chat"</span>,
+                messages=[
+                    {<span style="color:#a11;">"role"</span>: <span style="color:#a11;">"system"</span>, <span style="color:#a11;">"content"</span>: system_prompt},
+                    {<span style="color:#a11;">"role"</span>: <span style="color:#a11;">"user"</span>, <span style="color:#a11;">"content"</span>: user_message}
+                ],
+                temperature=<span style="color:#066;">0.1</span>, max_tokens=<span style="color:#066;">300</span>
+            )
+            <span style="color:#a11;">return</span> json.loads(response.choices[<span style="color:#066;">0</span>].message.content)
+
+        <span style="color:#888;"># RAG 生成：检索 → 构建上下文 → 调用 LLM</span>
+        <span style="color:#a11;">def</span> <span style="color:#069;">rag_answer</span>(question, query_for_search=<span style="color:#069;">None</span>, filetype=<span style="color:#069;">None</span>):
+            hits = search_files(query_for_search <span style="color:#a11;">or</span> question, filetype, limit=<span style="color:#066;">3</span>)
+            <span style="color:#a11;">if not</span> hits:
+                <span style="color:#a11;">return</span> <span style="color:#a11;">"未找到相关文件，无法回答。"</span>
+            context = <span style="color:#a11;">"\n"</span>.join(
+                f<span style="color:#a11;">"【{h['filename']}】\n{read_file_content(Path(h['path']), 1500)}"</span>
+                <span style="color:#a11;">for</span> h <span style="color:#a11;">in</span> hits
+            )
+            <span style="color:#888;"># 将 context 注入提示词，调用 DeepSeek 生成最终答案</span>
+    </div>
+    <p class="code-caption">▲ 核心逻辑：意图解析 + 路径安全校验 + RAG 检索增强生成</p>
+
+    <!-- ====== 结果展示 ====== -->
+    <div class="section-title">结果展示</div>
+    <p class="body-text">
+        系统运行后，前端以对话式界面呈现交互过程。左侧为"列出所有 Python 文件"的指令响应，返回匹配的文件名列表；右侧为"1.py 内容是什么"的读取结果，直接返回文件全文。所有结果均由自然语言驱动，无需用户掌握任何检索语法。
+    </p>
+
+    <div class="image-row">
+        <div class="figure-block" style="border:none; padding:0; background:transparent;">
+            <div class="image-placeholder">
+                <div class="icon">📂</div>
+                <div>列表查询结果截图</div>
+                <div class="hint">图6：自然语言"列出所有 Python 文件"的响应</div>
+            </div>
+        </div>
+        <div class="figure-block" style="border:none; padding:0; background:transparent;">
+            <div class="image-placeholder">
+                <div class="icon">📄</div>
+                <div>文件读取结果截图</div>
+                <div class="hint">图7："1.py 内容是什么"的文件内容返回</div>
+            </div>
+        </div>
+    </div>
+
+    <p class="body-text" style="font-size:0.85rem; color:#666;">
+        注：测试环境为 Python 3.10 + FastAPI + Whoosh + DeepSeek API，文件管理根目录为 <code>D:/Manage</code>，支持 UTF-8 / GBK / GB2312 等多种编码格式的文本文件。指令解析耗时约 0.6–1.2 秒，RAG 生成答案耗时约 1.5–3 秒。
+    </p>
+
+    <!-- ====== 技术栈 ====== -->
+    <div class="section-title">技术栈</div>
+    <ul class="styled-list">
+        <li><strong>Agent 框架：</strong>DeepSeek API（Function Calling / JSON 结构化输出）</li>
+        <li><strong>后端服务：</strong>Python 3.10 + FastAPI + Uvicorn</li>
+        <li><strong>全文检索：</strong>Whoosh（倒排索引 + MultifieldParser 多字段查询）</li>
+        <li><strong>RAG 方案：</strong>检索增强生成（Whoosh 召回 + DeepSeek 生成）</li>
+        <li><strong>编码检测：</strong>Chardet 自动识别文件编码</li>
+        <li><strong>数据校验：</strong>Pydantic BaseModel 请求体校验</li>
+        <li><strong>前端交互：</strong>HTML5 + CSS3 + 原生 JavaScript（Fetch API 异步通信）</li>
+    </ul>
+
+    <!-- ====== 项目链接 ====== -->
+    <div class="section-title">项目链接</div>
+    <p class="body-text">
+        <a href="https://github.com/Reettee/Reettee.github.io" 
+        style="color:#0066cc; text-decoration:none; border-bottom:1px solid #d0d0d0;">GitHub 仓库地址</a>
+    </p>
+    <!-- ====== 页脚 ====== -->
+    <div class="footer">
+        © 2026 黄志恒 · 项目详情
+    </div>
+
+</div>
+</body>
+</html>
